@@ -36,7 +36,7 @@ class AsyncWorker(base.Worker):
                     if not req:
                         break
                     self.handle_request(req, client, addr)
-            except StopIteration, e:
+            except StopIteration as e:
                 self.log.debug("Closing connection. %s", e)
         except socket.error, e:
             if e[0] not in (errno.EPIPE, errno.ECONNRESET):
@@ -46,7 +46,7 @@ class AsyncWorker(base.Worker):
                     self.log.debug("Ignoring connection reset")
                 else:
                     self.log.debug("Ignoring EPIPE")
-        except Exception, e:
+        except Exception as e:
             self.handle_error(client, e)
         finally:
             util.close(client)
