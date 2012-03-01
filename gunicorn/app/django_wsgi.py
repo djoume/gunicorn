@@ -9,10 +9,6 @@ import os
 import re
 import sys
 import time
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
 
 from django.conf import settings
 from django.core.management.validation import get_validation_errors
@@ -26,6 +22,7 @@ except ImportError:
     from django.core.servers.basehttp import AdminMediaHandler
     django14 = False
 
+from gunicorn.py3compat import StringIO
 from gunicorn import util
 
 

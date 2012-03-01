@@ -22,6 +22,7 @@ import resource
 import socket
 import sys
 import textwrap
+import traceback
 import time
 import inspect
 
@@ -127,7 +128,8 @@ def load_class(uri, default="sync", section="gunicorn.workers"):
                 return pkg_resources.load_entry_point("gunicorn",
                             section, uri)
             except ImportError:
-                raise RuntimeError("class uri invalid or not found")
+                traceback.print_exc()
+                raise RuntimeError("class uri invalid or not found.")
         klass = components.pop(-1)
         mod = __import__('.'.join(components))
         for comp in components[1:]:
