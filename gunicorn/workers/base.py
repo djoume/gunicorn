@@ -15,7 +15,7 @@ from gunicorn.workers.workertmp import WorkerTmp
 from gunicorn.http.errors import InvalidHeader, InvalidHeaderName, \
 InvalidRequestLine, InvalidRequestMethod, InvalidHTTPVersion, \
 LimitRequestLine, LimitRequestHeaders
-
+from gunicorn import py3compat
 
 class Worker(object):
 
@@ -41,7 +41,7 @@ class Worker(object):
         self.booted = False
 
         self.nr = 0
-        self.max_requests = cfg.max_requests or sys.maxint
+        self.max_requests = cfg.max_requests or py3compat.MAXSIZE
         self.alive = True
         self.log = log
         self.debug = cfg.debug
