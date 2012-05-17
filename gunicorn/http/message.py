@@ -32,12 +32,13 @@ class Message(object):
         self.hdrre = re.compile("[\x00-\x1F\x7F()<>@,;:\[\]={} \t\\\\\"]")
 
         # set headers limits
-        self.limit_request_fields = max(cfg.limit_request_fields, MAX_HEADERS)
-        if self.limit_request_fields <= 0:
+        self.limit_request_fields = cfg.limit_request_fields
+        if (self.limit_request_fields <= 0
+            or self.limit_request_fields > MAX_HEADERS): # TODO: test
             self.limit_request_fields = MAX_HEADERS
-        self.limit_request_field_size = max(cfg.limit_request_field_size,
-                MAX_HEADERFIELD_SIZE)
-        if self.limit_request_field_size <= 0:
+        self.limit_request_field_size = cfg.limit_request_field_size #TODO: test
+        if (self.limit_request_field_size <= 0
+            or self.limit_request_field_size > MAX_HEADERFIELD_SIZE): #TODO: test
             self.limit_request_field_size = MAX_HEADERFIELD_SIZE
 
         # set max header buffer size
@@ -130,9 +131,9 @@ class Request(Message):
         self.fragment = None
 
         # get max request line size
-        self.limit_request_line = max(cfg.limit_request_line,
-                MAX_REQUEST_LINE)
-        if self.limit_request_line <= 0:
+        self.limit_request_line = cfg.limit_request_line
+        if (self.limit_request_line <= 0
+            or self.limit_request_line >= MAX_REQUEST_LINE):
             self.limit_request_line = MAX_REQUEST_LINE
         super(Request, self).__init__(cfg, unreader)
 
