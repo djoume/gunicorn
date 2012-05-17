@@ -242,13 +242,9 @@ class request(object):
         t.eq(req.trailers, exp.get("trailers", []))
 
 class badrequest(object):
-    def __init__(self, fname, expect):
+    def __init__(self, fname):
         self.fname = fname
         self.name = os.path.basename(fname)
-
-        self.expect = expect
-        if not isinstance(self.expect, list):
-            self.expect = [self.expect]
 
         with open(self.fname) as handle:
             self.data = handle.read()
@@ -264,15 +260,6 @@ class badrequest(object):
             read += chunk
 
     def check(self):
-        cases = self.expect[:]
         p = RequestParser(Config(), self.send())
-        try:
-            [req for req in p]
-        except Exception, inst:
-            exp = cases.pop(0)
-            if not issubclass(exp, Exception):
-                raise TypeError("Test case is not an exception calss: %s" % exp)
-            t.istype(inst, exp)
-            return
-
+        [req for req in p]
 
