@@ -68,6 +68,8 @@ class Message(object):
             curr = lines.pop(0)
             if curr.find(":") < 0:
                 raise InvalidHeader(curr.strip())
+            if len(curr) > self.limit_request_field_size:
+                raise LimitRequestHeaders("limit request headers fields size")
             name, value = curr.split(":", 1)
             name = name.rstrip(" \t").upper()
             if self.hdrre.search(name):
