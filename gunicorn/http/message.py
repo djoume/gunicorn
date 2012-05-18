@@ -162,7 +162,7 @@ class Request(Message):
             data = buf.getvalue()
 
             if len(data) - 2 > self.limit_request_line:
-                raise LimitRequestLine(len(data), self.cfg.limit_request_line)
+                raise LimitRequestLine(len(data), self.limit_request_line)
 
         self.parse_request_line(data[:idx])
         buf = StringIO()
