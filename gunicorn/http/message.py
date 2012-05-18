@@ -34,7 +34,7 @@ class Message(object):
         # set headers limits
         self.limit_request_fields = cfg.limit_request_fields
         if (self.limit_request_fields <= 0
-            or self.limit_request_fields > MAX_HEADERS): # TODO: test
+            or self.limit_request_fields > MAX_HEADERS):
             self.limit_request_fields = MAX_HEADERS
         self.limit_request_field_size = cfg.limit_request_field_size
         if (self.limit_request_field_size <= 0
@@ -61,7 +61,7 @@ class Message(object):
         # Parse headers into key/value pairs paying attention
         # to continuation lines.
         while len(lines):
-            if len(headers) > self.limit_request_fields:
+            if len(headers) >= self.limit_request_fields:
                 raise LimitRequestHeaders("limit request headers fields")
 
             # Parse initial header name : value pair.
