@@ -38,7 +38,7 @@ class Message(object):
             self.limit_request_fields = MAX_HEADERS
         self.limit_request_field_size = cfg.limit_request_field_size
         if (self.limit_request_field_size <= 0
-            or self.limit_request_field_size > MAX_HEADERFIELD_SIZE): #TODO: test
+            or self.limit_request_field_size > MAX_HEADERFIELD_SIZE):
             self.limit_request_field_size = MAX_HEADERFIELD_SIZE
 
         # set max header buffer size
