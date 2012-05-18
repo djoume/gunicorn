@@ -16,6 +16,13 @@ reqdir = os.path.join(dirname, "requests", "invalid")
 
 def test_http_parser():
     for fname in glob.glob(os.path.join(reqdir, "*.http")):
-        expect = treq.load_py(os.path.splitext(fname)[0] + ".py")
+        env = treq.load_py(os.path.splitext(fname)[0] + ".py")
+        expect = env['request']
+        cfg = env['cfg']
         req = treq.badrequest(fname)
-        yield raises(expect)(req.check)
+
+        @raises(expect)
+        def check():
+            return req.check(cfg)
+
+        yield check

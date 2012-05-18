@@ -41,8 +41,9 @@ def uri(data):
 def load_py(fname):
     config = globals().copy()
     config["uri"] = uri
+    config["cfg"] = Config()
     execfile(fname, config)
-    return config["request"]
+    return config
 
 class request(object):
     def __init__(self, fname, expect):
@@ -259,7 +260,7 @@ class badrequest(object):
             yield self.data[read:read+chunk]
             read += chunk
 
-    def check(self):
-        p = RequestParser(Config(), self.send())
+    def check(self, cfg):
+        p = RequestParser(cfg, self.send())
         [req for req in p]
 

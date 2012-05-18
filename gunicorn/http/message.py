@@ -36,7 +36,7 @@ class Message(object):
         if (self.limit_request_fields <= 0
             or self.limit_request_fields > MAX_HEADERS): # TODO: test
             self.limit_request_fields = MAX_HEADERS
-        self.limit_request_field_size = cfg.limit_request_field_size #TODO: test
+        self.limit_request_field_size = cfg.limit_request_field_size
         if (self.limit_request_field_size <= 0
             or self.limit_request_field_size > MAX_HEADERFIELD_SIZE): #TODO: test
             self.limit_request_field_size = MAX_HEADERFIELD_SIZE
