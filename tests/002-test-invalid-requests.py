@@ -22,7 +22,7 @@ def test_http_parser():
         req = treq.badrequest(fname)
 
         @raises(expect)
-        def check():
+        def check(fname):
             return req.check(cfg)
 
-        yield check
+        yield check, fname # fname is pass so that we know which test failed
