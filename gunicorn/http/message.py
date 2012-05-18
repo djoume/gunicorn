@@ -66,10 +66,9 @@ class Message(object):
 
             # Parse initial header name : value pair.
             curr = lines.pop(0)
+            header_length = len(curr)
             if curr.find(":") < 0:
                 raise InvalidHeader(curr.strip())
-            if len(curr) > self.limit_request_field_size:
-                raise LimitRequestHeaders("limit request headers fields size")
             name, value = curr.split(":", 1)
             name = name.rstrip(" \t").upper()
             if self.hdrre.search(name):
@@ -79,9 +78,13 @@ class Message(object):
 
             # Consume value continuation lines
             while len(lines) and lines[0].startswith((" ", "\t")):
-                value.append(lines.pop(0))
+                curr = lines.pop(0)
+                header_length += len(curr)
+                value.append(curr)
             value = ''.join(value).rstrip()
 
+            if header_length > self.limit_request_field_size:
+                raise LimitRequestHeaders("limit request headers fields size")
             headers.append((name, value))
         return headers
 
