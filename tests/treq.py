@@ -199,7 +199,7 @@ class request(object):
     # Construct a series of test cases from the permutations of
     # send, size, and match functions.
 
-    def gen_cases(self):
+    def gen_cases(self, cfg):
         def get_funs(p):
             return [v for k, v in inspect.getmembers(self) if k.startswith(p)]
         senders = get_funs("send_")
@@ -218,15 +218,15 @@ class request(object):
             szn = sz.func_name[5:]
             snn = sn.func_name[5:]
             def test_req(sn, sz, mt):
-                self.check(sn, sz, mt)
+                self.check(cfg, sn, sz, mt)
             desc = "%s: MT: %s SZ: %s SN: %s" % (self.name, mtn, szn, snn)
             test_req.description = desc
             ret.append((test_req, sn, sz, mt))
         return ret
 
-    def check(self, sender, sizer, matcher):
+    def check(self, cfg, sender, sizer, matcher):
         cases = self.expect[:]
-        p = RequestParser(Config(), sender())
+        p = RequestParser(cfg, sender())
         for req in p:
             self.same(req, sizer, matcher, cases.pop(0))
         t.eq(len(cases), 0)
