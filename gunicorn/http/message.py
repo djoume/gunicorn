@@ -42,9 +42,9 @@ class Message(object):
             self.limit_request_field_size = MAX_HEADERFIELD_SIZE
 
         # set max header buffer size
-        self.max_buffer_headers = 4 + \
-            max(MAX_HEADERFIELD_SIZE, self.limit_request_fields) * \
-            (2 + max(MAX_HEADERFIELD_SIZE, self.limit_request_field_size))
+        max_header_field_size = self.limit_request_field_size or MAX_HEADERFIELD_SIZE
+        self.max_buffer_headers = self.limit_request_fields * \
+            (max_header_field_size + 2) + 4
 
         unused = self.parse(self.unreader)
         self.unreader.unread(unused)

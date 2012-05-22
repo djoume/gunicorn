@@ -3,7 +3,6 @@ from gunicorn.http.errors import LimitRequestHeaders
 
 cfg = Config()
 cfg.set('limit_request_line', 0)
-cfg.set('limit_request_fields', 0)
 cfg.set('limit_request_field_size', 0)
 request = {
     "method": "PUT",
